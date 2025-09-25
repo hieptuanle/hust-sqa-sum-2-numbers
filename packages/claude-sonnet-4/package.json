@@ -9,7 +9,12 @@
     "test": "node test.js",
     "dev": "node --watch index.js"
   },
-  "keywords": ["sum", "calculator", "claude", "sonnet-4"],
+  "keywords": [
+    "sum",
+    "calculator",
+    "claude",
+    "sonnet-4"
+  ],
   "author": "hieple",
   "license": "ISC"
 }

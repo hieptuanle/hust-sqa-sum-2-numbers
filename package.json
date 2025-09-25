@@ -22,7 +22,15 @@
     "test:grok": "pnpm --filter @hust-sqa/grok-4 test",
     "test:cursor": "pnpm --filter @hust-sqa/cursor-auto test",
     "test:claude": "pnpm --filter @hust-sqa/claude-sonnet-4 test",
-    "test:deepseek": "pnpm --filter @hust-sqa/deepseek test"
+    "test:deepseek": "pnpm --filter @hust-sqa/deepseek test",
+    "test:runner": "node test-runner.js",
+    "test:runner:chatgpt": "node test-runner.js chatgpt",
+    "test:runner:gemini": "node test-runner.js gemini",
+    "test:runner:grok": "node test-runner.js grok",
+    "test:runner:cursor": "node test-runner.js cursor",
+    "test:runner:claude": "node test-runner.js claude",
+    "test:runner:deepseek": "node test-runner.js deepseek",
+    "compare:all": "node test-runner.js"
   },
   "keywords": [],
   "author": "",

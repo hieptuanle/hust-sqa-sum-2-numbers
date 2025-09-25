@@ -17,7 +17,7 @@
 ### Prompt input cho mỗi mô hình
 
 **Task:**
-Write a console program that computes the sum of two arbitrarily large integers (each up to **1000 digits**).
+Write a console program that computes the sum of two arbitrarily large integers (each up to **1000 digits**) using Javascript (Node.js).
 
 **Requirements:**
 
