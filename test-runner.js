@@ -17,7 +17,7 @@ const colors = {
   white: "\x1b[37m",
 };
 
-// Test cases for the sum of two numbers program
+// Comprehensive test cases matching the exact prompt requirements
 const testCases = [
   // Basic positive numbers
   {
@@ -27,8 +27,21 @@ const testCases = [
   },
   { input: "0\n0", expected: "0", description: "Zero addition: 0 + 0" },
   { input: "1\n1", expected: "2", description: "Simple addition: 1 + 1" },
+  { input: "5\n3", expected: "8", description: "Simple single digit: 5 + 3" },
 
-  // Negative numbers
+  // Examples from the prompt
+  {
+    input: "12345678901234567890\n98765432109876543210",
+    expected: "111111111011111111100",
+    description: "Prompt example 1: large number addition",
+  },
+  {
+    input: "-999\n1000",
+    expected: "1",
+    description: "Prompt example 2: negative + positive",
+  },
+
+  // Negative numbers (comprehensive)
   {
     input: "-123\n456",
     expected: "333",
@@ -45,8 +58,81 @@ const testCases = [
     description: "Negative + Negative: -123 + (-456)",
   },
   { input: "-0\n0", expected: "0", description: "Negative zero: -0 + 0" },
+  {
+    input: "0\n-0",
+    expected: "0",
+    description: "Zero + negative zero: 0 + (-0)",
+  },
+  {
+    input: "-0\n-0",
+    expected: "0",
+    description: "Negative zero + negative zero: -0 + (-0)",
+  },
 
-  // Large numbers (testing big integer capability)
+  // Positive sign handling
+  {
+    input: "+123\n456",
+    expected: "579",
+    description: "Positive sign: +123 + 456",
+  },
+  {
+    input: "123\n+456",
+    expected: "579",
+    description: "Positive sign: 123 + (+456)",
+  },
+  {
+    input: "+123\n+456",
+    expected: "579",
+    description: "Both positive signs: +123 + (+456)",
+  },
+  {
+    input: "+123\n-456",
+    expected: "-333",
+    description: "Positive + negative signs: +123 + (-456)",
+  },
+
+  // Single digit with carry
+  {
+    input: "9\n9",
+    expected: "18",
+    description: "Single digit with carry: 9 + 9",
+  },
+  { input: "9\n1", expected: "10", description: "Single digit carry: 9 + 1" },
+  { input: "8\n7", expected: "15", description: "Single digit carry: 8 + 7" },
+
+  // Leading zeros (should be normalized)
+  {
+    input: "000123\n000456",
+    expected: "579",
+    description: "Leading zeros: 000123 + 000456",
+  },
+  {
+    input: "0001\n0002",
+    expected: "3",
+    description: "Leading zeros: 0001 + 0002",
+  },
+  {
+    input: "00000\n00000",
+    expected: "0",
+    description: "Multiple leading zeros: 00000 + 00000",
+  },
+  {
+    input: "000\n123",
+    expected: "123",
+    description: "Leading zeros with zero: 000 + 123",
+  },
+  {
+    input: "-000123\n456",
+    expected: "333",
+    description: "Negative with leading zeros: -000123 + 456",
+  },
+  {
+    input: "+000123\n456",
+    expected: "579",
+    description: "Positive with leading zeros: +000123 + 456",
+  },
+
+  // Very large numbers (up to 1000 digits capability)
   {
     input: "999999999999999999999\n1",
     expected: "1000000000000000000000",
@@ -58,69 +144,173 @@ const testCases = [
     description: "Very large numbers addition",
   },
   {
-    input: "999\n999",
-    expected: "1998",
-    description: "Three digit addition with carry",
+    input: "999999999999999999999999999999\n999999999999999999999999999999",
+    expected: "1999999999999999999999999999998",
+    description: "Large numbers with carry propagation",
   },
 
-  // Edge cases with leading zeros
-  {
-    input: "000123\n000456",
-    expected: "579",
-    description: "Numbers with leading zeros",
-  },
-  {
-    input: "0001\n0002",
-    expected: "3",
-    description: "Leading zeros: 0001 + 0002",
-  },
-
-  // Single digit cases
-  {
-    input: "9\n9",
-    expected: "18",
-    description: "Single digit with carry: 9 + 9",
-  },
-  { input: "5\n3", expected: "8", description: "Simple single digit: 5 + 3" },
-
-  // More complex negative cases
-  {
-    input: "-999\n1000",
-    expected: "1",
-    description: "Large negative + positive: -999 + 1000",
-  },
-  {
-    input: "1000\n-999",
-    expected: "1",
-    description: "Large positive + negative: 1000 + (-999)",
-  },
-
-  // Very large numbers with different lengths
+  // Different length numbers
   {
     input: "12345\n987654321",
     expected: "987666666",
-    description: "Different length numbers",
+    description: "Different length: short + long",
+  },
+  {
+    input: "987654321\n12345",
+    expected: "987666666",
+    description: "Different length: long + short",
   },
   {
     input: "-12345\n987654321",
     expected: "987641976",
     description: "Different length with negative",
   },
+  {
+    input: "12345\n-987654321",
+    expected: "-987641976",
+    description: "Different length: positive + negative",
+  },
+
+  // Subtraction-like cases (different signs)
+  {
+    input: "1000\n-999",
+    expected: "1",
+    description: "Subtraction case: 1000 + (-999)",
+  },
+  {
+    input: "-1000\n999",
+    expected: "-1",
+    description: "Subtraction case: -1000 + 999",
+  },
+  {
+    input: "999\n-999",
+    expected: "0",
+    description: "Subtraction resulting in zero: 999 + (-999)",
+  },
+  {
+    input: "-999\n999",
+    expected: "0",
+    description: "Subtraction resulting in zero: -999 + 999",
+  },
+
+  // Borrowing/carrying across many digits
+  {
+    input: "999\n999",
+    expected: "1998",
+    description: "Multiple carries: 999 + 999",
+  },
+  {
+    input: "9999\n9999",
+    expected: "19998",
+    description: "Multiple carries: 9999 + 9999",
+  },
+  {
+    input: "99999999\n1",
+    expected: "100000000",
+    description: "Carry propagation: 99999999 + 1",
+  },
+
+  // Edge cases with zero
+  { input: "0\n123", expected: "123", description: "Zero + positive: 0 + 123" },
+  { input: "123\n0", expected: "123", description: "Positive + zero: 123 + 0" },
+  {
+    input: "0\n-123",
+    expected: "-123",
+    description: "Zero + negative: 0 + (-123)",
+  },
+  {
+    input: "-123\n0",
+    expected: "-123",
+    description: "Negative + zero: -123 + 0",
+  },
+
+  // Complex mixed sign scenarios
+  {
+    input: "-12345\n12346",
+    expected: "1",
+    description: "Close values different signs: -12345 + 12346",
+  },
+  {
+    input: "12345\n-12346",
+    expected: "-1",
+    description: "Close values different signs: 12345 + (-12346)",
+  },
+  {
+    input: "-12345\n12345",
+    expected: "0",
+    description: "Equal magnitude opposite signs: -12345 + 12345",
+  },
+
+  // Very long number test (approaching 1000 digits)
+  {
+    input:
+      "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890\n9876543210987654321098765432109876543210987654321098765432109876543210987654321098765432109876543210",
+    expected:
+      "11111111101111111110111111111011111111101111111110111111111011111111101111111110111111111011111111100",
+    description: "200-digit numbers addition",
+  },
 ];
 
-// Invalid input test cases (should produce errors)
+// Invalid input test cases (should produce errors and prompt again per requirement)
 const invalidTestCases = [
-  { input: "abc\n123", description: "Invalid input: abc + 123" },
-  { input: "123\ndef", description: "Invalid input: 123 + def" },
+  // Non-numeric characters
+  { input: "abc\n123", description: "Invalid first number: abc + 123" },
+  { input: "123\ndef", description: "Invalid second number: 123 + def" },
+  { input: "12a3\n456", description: "Mixed letters in number: 12a3 + 456" },
   {
-    input: "12.5\n13.5",
-    description: "Decimal numbers (should be integers only)",
+    input: "123\n45b6",
+    description: "Mixed letters in second number: 123 + 45b6",
   },
-  { input: "123\n\n", description: "Missing second number" },
-  { input: "\n456", description: "Missing first number" },
-  { input: "123 456\n789", description: "Space in number" },
-  { input: "++123\n456", description: "Multiple signs" },
-  { input: "--123\n456", description: "Double negative sign" },
+
+  // Decimal points (not allowed)
+  { input: "12.5\n13", description: "Decimal in first number: 12.5 + 13" },
+  { input: "123\n45.6", description: "Decimal in second number: 123 + 45.6" },
+  { input: "12.5\n13.7", description: "Decimals in both numbers: 12.5 + 13.7" },
+
+  // Empty or missing input
+  { input: "\n123\n", description: "Empty first number" },
+  { input: "123\n\n", description: "Empty second number" },
+  { input: "\n\n", description: "Both numbers empty" },
+
+  // Spaces inside numbers (not allowed)
+  {
+    input: "123 456\n789",
+    description: "Space in first number: 123 456 + 789",
+  },
+  {
+    input: "123\n456 789",
+    description: "Space in second number: 123 + 456 789",
+  },
+  {
+    input: "12 34\n56 78",
+    description: "Spaces in both numbers: 12 34 + 56 78",
+  },
+
+  // Multiple signs (invalid format)
+  { input: "++123\n456", description: "Double positive sign: ++123 + 456" },
+  { input: "--123\n456", description: "Double negative sign: --123 + 456" },
+  { input: "+-123\n456", description: "Mixed signs: +-123 + 456" },
+  { input: "-+123\n456", description: "Mixed signs: -+123 + 456" },
+  {
+    input: "123\n++456",
+    description: "Double positive in second: 123 + ++456",
+  },
+  {
+    input: "123\n--456",
+    description: "Double negative in second: 123 + --456",
+  },
+
+  // Signs in wrong position
+  { input: "12-3\n456", description: "Sign in middle: 12-3 + 456" },
+  { input: "123\n45+6", description: "Sign in middle: 123 + 45+6" },
+  { input: "123+\n456", description: "Sign at end: 123+ + 456" },
+  { input: "123\n456-", description: "Sign at end: 123 + 456-" },
+
+  // Other special characters
+  { input: "123#\n456", description: "Special character: 123# + 456" },
+  { input: "123\n456@", description: "Special character: 123 + 456@" },
+  { input: "(123)\n456", description: "Parentheses: (123) + 456" },
+  { input: "123\n[456]", description: "Brackets: 123 + [456]" },
 ];
 
 // Available packages to test
