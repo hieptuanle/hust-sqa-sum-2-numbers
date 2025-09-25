@@ -1,0 +1,15 @@
+{
+  "name": "@hust-sqa/chatgpt-gpt5-thinking",
+  "version": "1.0.0",
+  "description": "Sum of 2 numbers implementation using ChatGPT (GPT-5 Thinking)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": ["sum", "calculator", "chatgpt", "gpt5", "thinking"],
+  "author": "hieple",
+  "license": "ISC"
+}

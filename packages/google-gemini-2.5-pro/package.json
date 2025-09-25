@@ -1,0 +1,15 @@
+{
+  "name": "@hust-sqa/google-gemini-2.5-pro",
+  "version": "1.0.0",
+  "description": "Sum of 2 numbers implementation using Google Gemini (Gemini 2.5 Pro)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": ["sum", "calculator", "google", "gemini", "2.5-pro"],
+  "author": "hieple",
+  "license": "ISC"
+}

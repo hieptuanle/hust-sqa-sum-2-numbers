@@ -1,0 +1,15 @@
+{
+  "name": "@hust-sqa/cursor-auto",
+  "version": "1.0.0",
+  "description": "Sum of 2 numbers implementation using Cursor (Auto model)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": ["sum", "calculator", "cursor", "auto"],
+  "author": "hieple",
+  "license": "ISC"
+}
