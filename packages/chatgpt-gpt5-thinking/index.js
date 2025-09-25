@@ -1,95 +1,75 @@
-// sum_bigints.mjs (ESM)
-// Compute A + B where A and B are integers up to 1000 digits (with optional leading +/-).
-// Uses string-based addition/subtraction to avoid relying on arbitrary-precision types.
+// big-sum.mjs  (Node.js ESM)
+// Console program that sums two arbitrarily large integers (up to 1000 digits).
+// Reads lines until it has TWO valid integers. Prints only:
+//  - "Invalid input" lines for bad input
+//  - ONE final line with the exact sum (no leading zeros except "0").
+//
+// Usage: node big-sum.mjs
 
 import { createInterface } from "node:readline";
 
-const rl = createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+// ---------- Parsing & normalization ----------
+function parseInteger(raw) {
+  if (typeof raw !== "string") return null;
+  const s = raw.trim();
+  // Strict format: optional +/-, then digits only; no internal spaces or dots
+  if (!/^[+-]?\d+$/.test(s)) return null;
 
-/** Prompt wrapper that returns a single line of input */
-function ask(q) {
-  return new Promise((resolve) => rl.question(q, (ans) => resolve(ans)));
-}
+  // Extract sign and magnitude
+  let sign = 1;
+  let digits = s;
 
-/** Remove leading zeros from a non-signed digit string; return "0" if all zeros */
-function stripLeadingZeros(digits) {
-  const s = digits.replace(/^0+/, "");
-  return s.length ? s : "0";
-}
-
-/** Validate and normalize an integer string.
- * Returns { ok: true, sign: '+'|'-'|'', abs: '0'..digits, text: normalizedCanonical }
- * or { ok: false, error: '...' } on failure.
- *
- * Rules:
- * - Optional leading '+' or '-' then digits only.
- * - Trim outer whitespace; no internal spaces allowed.
- * - Up to 1000 significant digits (after removing leading zeros).
- */
-function parseInteger(inputRaw) {
-  const raw = inputRaw.trim();
-  if (!/^[+-]?\d+$/.test(raw)) {
-    return {
-      ok: false,
-      error:
-        "Invalid format. Use optional leading + or -, followed by digits only.",
-    };
+  if (s[0] === "+" || s[0] === "-") {
+    if (s[0] === "-") sign = -1;
+    digits = s.slice(1);
   }
-  let sign = "";
-  let digits = raw;
-  if (raw[0] === "+" || raw[0] === "-") {
-    sign = raw[0] === "-" ? "-" : "";
-    digits = raw.slice(1);
+
+  // Remove leading zeros, preserving a single "0"
+  digits = digits.replace(/^0+/, "");
+  if (digits.length === 0) {
+    digits = "0";
+    sign = 1; // "-0" and "+0" normalize to plain "0"
   }
-  // remove leading zeros from absolute part
-  const abs = stripLeadingZeros(digits);
-  if (abs.length > 1000) {
-    return {
-      ok: false,
-      error: "Too many digits. Limit is 1000 significant digits.",
-    };
-  }
-  // Zero has no sign
-  if (abs === "0") sign = "";
-  const text = (sign ? "-" : "") + abs;
-  return { ok: true, sign, abs, text };
+
+  return { sign, mag: digits };
 }
 
-/** Compare absolute values of two non-negative digit strings.
- * Returns 1 if a>b, -1 if a<b, 0 if equal.
- */
-function compareAbs(a, b) {
-  if (a.length !== b.length) return a.length > b.length ? 1 : -1;
-  return a === b ? 0 : a > b ? 1 : -1; // lex compare works for equal length numeric strings
-}
-
-/** Add two non-negative digit strings (no sign), return digit string */
-function addAbs(a, b) {
+// ---------- Unsigned big integer helpers on strings ----------
+function addMagnitudes(a, b) {
+  // a, b are non-empty strings of digits, no sign
   let i = a.length - 1;
   let j = b.length - 1;
   let carry = 0;
-  let out = "";
+  const out = [];
+
   while (i >= 0 || j >= 0 || carry) {
     const da = i >= 0 ? a.charCodeAt(i) - 48 : 0;
     const db = j >= 0 ? b.charCodeAt(j) - 48 : 0;
     const sum = da + db + carry;
-    out = String(sum % 10) + out;
+    out.push(String.fromCharCode(48 + (sum % 10)));
     carry = Math.floor(sum / 10);
     i--;
     j--;
   }
-  return stripLeadingZeros(out);
+
+  out.reverse();
+  return out.join("");
 }
 
-/** Subtract b from a for non-negative digit strings with a>=b, return digit string */
-function subAbs(a, b) {
+function compareMagnitudes(a, b) {
+  // Returns 1 if a>b, 0 if equal, -1 if a<b (unsigned comparison)
+  if (a.length !== b.length) return a.length > b.length ? 1 : -1;
+  if (a === b) return 0;
+  return a > b ? 1 : -1; // lexicographic works when lengths equal and digits only
+}
+
+function subMagnitudes(a, b) {
+  // Compute a - b assuming a >= b, both unsigned strings
   let i = a.length - 1;
   let j = b.length - 1;
   let borrow = 0;
-  let out = "";
+  const out = [];
+
   while (i >= 0) {
     let da = a.charCodeAt(i) - 48 - borrow;
     const db = j >= 0 ? b.charCodeAt(j) - 48 : 0;
@@ -99,54 +79,66 @@ function subAbs(a, b) {
     } else {
       borrow = 0;
     }
-    const diff = da - db;
-    out = String(diff) + out;
+    const d = da - db;
+    out.push(String.fromCharCode(48 + d));
     i--;
     j--;
   }
-  return stripLeadingZeros(out);
+
+  // Remove leading zeros
+  while (out.length > 1 && out[out.length - 1] === "0") out.pop();
+  out.reverse();
+  return out.join("");
 }
 
-/** Compute signed sum given normalized {sign, abs} pairs */
-function addSigned(a, b) {
-  if (a.sign === b.sign) {
-    const abs = addAbs(a.abs, b.abs);
-    const sign = abs === "0" ? "" : a.sign; // same sign
-    return (sign ? "-" : "") + abs;
+// ---------- Signed addition ----------
+function addSigned(x, y) {
+  // x, y: {sign: ±1, mag: "digits"}
+  if (x.sign === y.sign) {
+    const mag = addMagnitudes(x.mag, y.mag);
+    return { sign: x.sign, mag };
   } else {
-    // different signs: larger abs minus smaller abs; sign of the larger
-    const cmp = compareAbs(a.abs, b.abs);
-    if (cmp === 0) return "0";
+    const cmp = compareMagnitudes(x.mag, y.mag);
+    if (cmp === 0) return { sign: 1, mag: "0" };
     if (cmp > 0) {
-      const abs = subAbs(a.abs, b.abs);
-      const sign = abs === "0" ? "" : a.sign;
-      return (sign ? "-" : "") + abs;
+      return { sign: x.sign, mag: subMagnitudes(x.mag, y.mag) };
     } else {
-      const abs = subAbs(b.abs, a.abs);
-      const sign = abs === "0" ? "" : b.sign;
-      return (sign ? "-" : "") + abs;
+      return { sign: y.sign, mag: subMagnitudes(y.mag, x.mag) };
     }
   }
 }
 
-/** Ask repeatedly until a valid integer is entered; returns normalized text */
-async function askInteger(label) {
-  while (true) {
-    const line = await ask("");
-    const parsed = parseInteger(line);
-    if (parsed.ok) return parsed;
-    console.log(`Error: ${parsed.error}\nPlease try again.`);
+function formatSigned(n) {
+  if (n.mag === "0") return "0";
+  return (n.sign < 0 ? "-" : "") + n.mag;
+}
+
+// ---------- I/O loop ----------
+const rl = createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
+
+const values = []; // will hold two valid parsed integers
+
+rl.on("line", (line) => {
+  if (values.length >= 2) return; // ignore extra input
+  const parsed = parseInteger(line);
+  if (!parsed) {
+    console.error("Invalid input");
+    return;
   }
-}
+  values.push(parsed);
 
-async function main() {
-  const A = await askInteger("A");
-  const B = await askInteger("B");
+  if (values.length === 2) {
+    const sum = addSigned(values[0], values[1]);
+    console.log(formatSigned(sum));
+    rl.close();
+  }
+});
 
-  const sum = addSigned(A, B);
-  console.log(sum);
-
-  rl.close();
-}
-
-await main();
+rl.on("close", () => {
+  // If the stream ends before two valid inputs were provided, do nothing more.
+  // (No extra output besides prior "Invalid input" lines or the final result.)
+});
