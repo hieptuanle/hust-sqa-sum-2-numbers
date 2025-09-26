@@ -1,0 +1,56 @@
+
+CODE METRICS REPORT
+===================
+Package: chatgpt
+File: packages/chatgpt-gpt5-thinking/index.js
+Analysis Date: 2025-09-26T06:25:15.600Z
+
+LINES OF CODE (LOC)
+-------------------
+Physical Lines: 145
+Source Lines: 126
+Comment Lines: 19
+Blank Lines: N/A
+Comment Density: 13.10%
+
+COMPLEXITY METRICS
+------------------
+Cyclomatic Complexity: 37
+Cyclomatic Density: 29.36
+Average Function Complexity: 4.50
+Number of Functions: 8
+
+HALSTEAD METRICS
+----------------
+Unique Operators: 31
+Unique Operands: 73
+Vocabulary: 104
+Length: 574
+Volume: 3846.05
+Difficulty: 63.27
+Effort: 243355.01
+Time Required: 13519.72 seconds
+Bugs Delivered: 1.2820
+
+MAINTAINABILITY
+---------------
+Maintainability Index: 65.53
+Rating: Moderate
+MI Without Comments: 38.94
+MI Comment Weight: 26.59
+Comment Density: 13.10%
+
+CODE QUALITY
+------------
+Average Line Length: 25.22
+Max Nesting Level: 4
+TODO Comments: 0
+Imports: 1
+Exports: 0
+Coupling Indicator: 1
+
+DUPLICATION
+-----------
+Duplicated Lines: 0
+Duplication Percentage: 0.00%
+Clone Count: 0

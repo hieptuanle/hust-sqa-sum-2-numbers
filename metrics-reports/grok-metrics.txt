@@ -1,0 +1,56 @@
+
+CODE METRICS REPORT
+===================
+Package: grok
+File: packages/grok-4/index.js
+Analysis Date: 2025-09-26T06:25:16.572Z
+
+LINES OF CODE (LOC)
+-------------------
+Physical Lines: 204
+Source Lines: 154
+Comment Lines: 50
+Blank Lines: N/A
+Comment Density: 24.51%
+
+COMPLEXITY METRICS
+------------------
+Cyclomatic Complexity: 48
+Cyclomatic Density: 31.17
+Average Function Complexity: 5.22
+Number of Functions: 9
+
+HALSTEAD METRICS
+----------------
+Unique Operators: 32
+Unique Operands: 65
+Vocabulary: 97
+Length: 642
+Volume: 4237.14
+Difficulty: 82.95
+Effort: 351487.40
+Time Required: 19527.08 seconds
+Bugs Delivered: 1.4120
+
+MAINTAINABILITY
+---------------
+Maintainability Index: 65.08
+Rating: Moderate
+MI Without Comments: 30.38
+MI Comment Weight: 34.70
+Comment Density: 24.51%
+
+CODE QUALITY
+------------
+Average Line Length: 25.07
+Max Nesting Level: 4
+TODO Comments: 0
+Imports: 2
+Exports: 0
+Coupling Indicator: 2
+
+DUPLICATION
+-----------
+Duplicated Lines: 0
+Duplication Percentage: 0.00%
+Clone Count: 0

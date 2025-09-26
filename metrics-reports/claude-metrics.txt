@@ -1,0 +1,56 @@
+
+CODE METRICS REPORT
+===================
+Package: claude
+File: packages/claude-sonnet-4/index.js
+Analysis Date: 2025-09-26T06:25:17.240Z
+
+LINES OF CODE (LOC)
+-------------------
+Physical Lines: 171
+Source Lines: 128
+Comment Lines: 43
+Blank Lines: N/A
+Comment Density: 25.15%
+
+COMPLEXITY METRICS
+------------------
+Cyclomatic Complexity: 44
+Cyclomatic Density: 34.38
+Average Function Complexity: 6.14
+Number of Functions: 7
+
+HALSTEAD METRICS
+----------------
+Unique Operators: 34
+Unique Operands: 65
+Vocabulary: 99
+Length: 577
+Volume: 3825.14
+Difficulty: 79.77
+Effort: 305128.38
+Time Required: 16951.58 seconds
+Bugs Delivered: 1.2750
+
+MAINTAINABILITY
+---------------
+Maintainability Index: 69.74
+Rating: Moderate
+MI Without Comments: 34.69
+MI Comment Weight: 35.05
+Comment Density: 25.15%
+
+CODE QUALITY
+------------
+Average Line Length: 19.61
+Max Nesting Level: 3
+TODO Comments: 0
+Imports: 1
+Exports: 0
+Coupling Indicator: 1
+
+DUPLICATION
+-----------
+Duplicated Lines: 0
+Duplication Percentage: 0.00%
+Clone Count: 0

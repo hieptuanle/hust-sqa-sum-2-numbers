@@ -103,12 +103,19 @@ class MetricsAnalyzer {
 
       // Calculate comment density from physical vs logical lines
       const commentLines = (sloc.physical || 0) - (sloc.logical || 0);
-      const commentDensity =
+      const commentDensityPercent = 
         sloc.logical && commentLines > 0
-          ? `${((commentLines / (sloc.logical + commentLines)) * 100).toFixed(
-              2
-            )}%`
-          : "0.00%";
+          ? (commentLines / (sloc.logical + commentLines)) * 100
+          : 0;
+      const commentDensity = `${commentDensityPercent.toFixed(2)}%`;
+
+      // Calculate custom maintainability index using the provided formula
+      const customMI = this.calculateCustomMaintainabilityIndex(
+        halstead.volume || 0,
+        aggregate.cyclomatic || 0,
+        sloc.physical || 0,
+        commentDensityPercent
+      );
 
       return {
         loc: {
@@ -147,15 +154,17 @@ class MetricsAnalyzer {
           bugsDelivered: halstead.bugs?.toFixed(4) || "0.0000",
         },
         maintainability: {
-          index: analysis.maintainability?.toFixed(2) || "0.00",
-          normalizedIndex: analysis.maintainability
-            ? Math.max(0, (analysis.maintainability / 171) * 100).toFixed(2)
-            : "0.00",
-          rating: this.getMaintainabilityRating(analysis.maintainability),
+          index: customMI.total.toFixed(2),
+          rating: this.getMaintainabilityRating(customMI.total),
           factors: {
             halsteadVolume: halstead.volume || 0,
             cyclomaticComplexity: aggregate.cyclomatic || 0,
-            linesOfCode: sloc.logical || 0,
+            linesOfCode: sloc.physical || 0,
+            commentDensity: commentDensityPercent,
+          },
+          components: {
+            withoutComment: customMI.withoutComment.toFixed(2),
+            commentWeight: customMI.commentWeight.toFixed(2),
           },
         },
       };
@@ -175,14 +184,37 @@ class MetricsAnalyzer {
     }
   }
 
+  calculateCustomMaintainabilityIndex(halsteadVolume, cyclomaticComplexity, physicalLOC, commentDensityPercent) {
+    // Use minimum values to avoid invalid logarithms
+    const safeHalsteadVolume = Math.max(halsteadVolume, 1);
+    const safeCyclomaticComplexity = Math.max(cyclomaticComplexity, 1);
+    const safePhysicalLOC = Math.max(physicalLOC, 1);
+    const safeCommentDensity = Math.max(commentDensityPercent, 0) / 100; // Convert to decimal
+
+    // MI_without_comment = 171 - 5.2 * ln(Avg_Halstead_Volume_Per_Module) - 0.23 * Avg_Cyclomatic_Complexity_Per_Module - 16.2 * ln(Avg_Physical_LOC_Per_Module)
+    const miWithoutComment = 171 - 
+      (5.2 * Math.log(safeHalsteadVolume)) - 
+      (0.23 * safeCyclomaticComplexity) - 
+      (16.2 * Math.log(safePhysicalLOC));
+
+    // MI_comment_weight = 50 * sin(sqrt(2.4 * Comment_Density))
+    const miCommentWeight = 50 * Math.sin(Math.sqrt(2.4 * safeCommentDensity));
+
+    // MI = MI_without_comment + MI_comment_weight
+    const totalMI = miWithoutComment + miCommentWeight;
+
+    return {
+      withoutComment: miWithoutComment,
+      commentWeight: miCommentWeight,
+      total: totalMI
+    };
+  }
+
   getMaintainabilityRating(index) {
     if (!index || index < 0) return "Unknown";
-    const normalizedIndex = (index / 171) * 100;
-    if (normalizedIndex >= 85) return "Excellent";
-    else if (normalizedIndex >= 70) return "Good";
-    else if (normalizedIndex >= 50) return "Moderate";
-    else if (normalizedIndex >= 25) return "Low";
-    else return "Critical";
+    if (index >= 85) return "Good";
+    else if (index >= 65) return "Moderate";
+    else return "Difficult to maintain";
   }
 
   async getLOCMetrics(filePath) {
@@ -720,8 +752,10 @@ Bugs Delivered: ${metrics.halstead.bugsDelivered || "N/A"}
 MAINTAINABILITY
 ---------------
 Maintainability Index: ${metrics.maintainability.index || "N/A"}
-Normalized Index: ${metrics.maintainability.normalizedIndex || "N/A"}%
 Rating: ${metrics.maintainability.rating || "N/A"}
+MI Without Comments: ${metrics.maintainability.components?.withoutComment || "N/A"}
+MI Comment Weight: ${metrics.maintainability.components?.commentWeight || "N/A"}
+Comment Density: ${metrics.maintainability.factors?.commentDensity?.toFixed(2) || "N/A"}%
 
 CODE QUALITY
 ------------
@@ -797,7 +831,7 @@ Clone Count: ${
       "loc.source",
       "complexity.cyclomatic",
       "halstead.volume",
-      "maintainability.normalizedIndex",
+      "maintainability.index",
     ];
 
     for (const metric of metrics) {
@@ -814,17 +848,11 @@ Clone Count: ${
     summary.rankings.maintainability = packages.sort((a, b) => {
       const aValue =
         parseFloat(
-          this.getNestedValue(
-            this.results[a],
-            "maintainability.normalizedIndex"
-          )
+          this.getNestedValue(this.results[a], "maintainability.index")
         ) || 0;
       const bValue =
         parseFloat(
-          this.getNestedValue(
-            this.results[b],
-            "maintainability.normalizedIndex"
-          )
+          this.getNestedValue(this.results[b], "maintainability.index")
         ) || 0;
       return bValue - aValue;
     });
@@ -889,7 +917,7 @@ Clone Count: ${
         metrics.halstead?.volume || "N/A",
         metrics.halstead?.difficulty || "N/A",
         metrics.halstead?.effort || "N/A",
-        metrics.maintainability?.normalizedIndex || "N/A",
+        metrics.maintainability?.index || "N/A",
         metrics.maintainability?.rating || "N/A",
         metrics.codeQuality?.maxNestingLevel || "N/A",
         metrics.codeQuality?.couplingIndicator || "N/A",
@@ -915,17 +943,11 @@ Clone Count: ${
     const maintainabilityRanking = packages.sort((a, b) => {
       const aValue =
         parseFloat(
-          this.getNestedValue(
-            this.results[a],
-            "maintainability.normalizedIndex"
-          )
+          this.getNestedValue(this.results[a], "maintainability.index")
         ) || 0;
       const bValue =
         parseFloat(
-          this.getNestedValue(
-            this.results[b],
-            "maintainability.normalizedIndex"
-          )
+          this.getNestedValue(this.results[b], "maintainability.index")
         ) || 0;
       return bValue - aValue;
     });
@@ -933,11 +955,11 @@ Clone Count: ${
     console.log(`\n${colors.cyan}🏆 Maintainability Ranking:${colors.reset}`);
     maintainabilityRanking.forEach((pkg, index) => {
       const metrics = this.results[pkg];
-      const score = metrics.maintainability?.normalizedIndex || "N/A";
+      const score = metrics.maintainability?.index || "N/A";
       const rating = metrics.maintainability?.rating || "N/A";
       const medal =
         index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : "  ";
-      console.log(`${medal} ${pkg.padEnd(15)} ${score}% (${rating})`);
+      console.log(`${medal} ${pkg.padEnd(15)} ${score} (${rating})`);
     });
 
     // Complexity ranking (lower is better)

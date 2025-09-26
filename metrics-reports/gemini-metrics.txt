@@ -1,0 +1,56 @@
+
+CODE METRICS REPORT
+===================
+Package: gemini
+File: packages/google-gemini-2.5-pro/index.js
+Analysis Date: 2025-09-26T06:25:16.232Z
+
+LINES OF CODE (LOC)
+-------------------
+Physical Lines: 203
+Source Lines: 116
+Comment Lines: 87
+Blank Lines: N/A
+Comment Density: 42.86%
+
+COMPLEXITY METRICS
+------------------
+Cyclomatic Complexity: 30
+Cyclomatic Density: 25.86
+Average Function Complexity: 4.83
+Number of Functions: 6
+
+HALSTEAD METRICS
+----------------
+Unique Operators: 31
+Unique Operands: 76
+Vocabulary: 107
+Length: 507
+Volume: 3417.92
+Difficulty: 56.29
+Effort: 192393.13
+Time Required: 10688.51 seconds
+Bugs Delivered: 1.1390
+
+MAINTAINABILITY
+---------------
+Maintainability Index: 78.17
+Rating: Moderate
+MI Without Comments: 35.71
+MI Comment Weight: 42.45
+Comment Density: 42.86%
+
+CODE QUALITY
+------------
+Average Line Length: 28.65
+Max Nesting Level: 3
+TODO Comments: 0
+Imports: 1
+Exports: 0
+Coupling Indicator: 1
+
+DUPLICATION
+-----------
+Duplicated Lines: 0
+Duplication Percentage: 0.00%
+Clone Count: 0

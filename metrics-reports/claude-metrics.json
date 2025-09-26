@@ -1,0 +1,535 @@
+{
+  "package": "claude",
+  "file": "packages/claude-sonnet-4/index.js",
+  "timestamp": "2025-09-26T06:25:17.240Z",
+  "loc": {
+    "physical": 171,
+    "source": 128,
+    "comments": 43,
+    "blank": 0,
+    "commentDensity": "25.15%"
+  },
+  "complexity": {
+    "cyclomatic": 44,
+    "cyclomaticDensity": "34.38",
+    "functions": [
+      {
+        "cyclomatic": 8,
+        "cyclomaticDensity": 61.538,
+        "halstead": {
+          "bugs": 0.108,
+          "difficulty": 17.5,
+          "effort": 5675.781,
+          "length": 69,
+          "time": 315.321,
+          "vocabulary": 26,
+          "volume": 324.33,
+          "operands": {
+            "distinct": 13,
+            "total": 35,
+            "identifiers": [
+              "str",
+              "trim",
+              "length",
+              "0",
+              "false",
+              "startIdx",
+              "\"+\"",
+              "\"-\"",
+              "1",
+              "i",
+              "\"0\"",
+              "\"9\"",
+              "true"
+            ]
+          },
+          "operators": {
+            "distinct": 13,
+            "total": 34,
+            "identifiers": [
+              "=",
+              "()",
+              ".",
+              "if",
+              "===",
+              "return",
+              "let",
+              "||",
+              "[]",
+              "for",
+              "<",
+              "++ (postfix)",
+              ">"
+            ]
+          }
+        },
+        "paramCount": 1,
+        "sloc": {
+          "logical": 13,
+          "physical": 18
+        },
+        "errors": [],
+        "lineEnd": 27,
+        "lineStart": 10,
+        "name": "isValidInteger",
+        "paramNames": [
+          "str"
+        ],
+        "maxNestedMethodDepth": 0,
+        "nestedMethods": []
+      },
+      {
+        "cyclomatic": 7,
+        "cyclomaticDensity": 41.176,
+        "halstead": {
+          "bugs": 0.113,
+          "difficulty": 22.167,
+          "effort": 7501.902,
+          "length": 72,
+          "time": 416.772,
+          "vocabulary": 26,
+          "volume": 338.432,
+          "operands": {
+            "distinct": 12,
+            "total": 38,
+            "identifiers": [
+              "str",
+              "trim",
+              "negative",
+              "false",
+              "0",
+              "\"-\"",
+              "true",
+              "substring",
+              "1",
+              "\"+\"",
+              "length",
+              "\"0\""
+            ]
+          },
+          "operators": {
+            "distinct": 14,
+            "total": 34,
+            "identifiers": [
+              "=",
+              "()",
+              ".",
+              "let",
+              "if",
+              "else",
+              "===",
+              "[]",
+              "while",
+              "&&",
+              ">",
+              "return",
+              ":?",
+              "+"
+            ]
+          }
+        },
+        "paramCount": 1,
+        "sloc": {
+          "logical": 17,
+          "physical": 23
+        },
+        "errors": [],
+        "lineEnd": 52,
+        "lineStart": 30,
+        "name": "normalize",
+        "paramNames": [
+          "str"
+        ],
+        "maxNestedMethodDepth": 0,
+        "nestedMethods": []
+      },
+      {
+        "cyclomatic": 4,
+        "cyclomaticDensity": 50,
+        "halstead": {
+          "bugs": 0.069,
+          "difficulty": 25,
+          "effort": 5212.406,
+          "length": 50,
+          "time": 289.578,
+          "vocabulary": 18,
+          "volume": 208.496,
+          "operands": {
+            "distinct": 6,
+            "total": 25,
+            "identifiers": [
+              "a",
+              "length",
+              "b",
+              "i",
+              "0",
+              "charCodeAt"
+            ]
+          },
+          "operators": {
+            "distinct": 12,
+            "total": 25,
+            "identifiers": [
+              "if",
+              "!==",
+              ".",
+              "return",
+              "-",
+              "for",
+              "let",
+              "=",
+              "<",
+              "++ (postfix)",
+              "[]",
+              "()"
+            ]
+          }
+        },
+        "paramCount": 2,
+        "sloc": {
+          "logical": 8,
+          "physical": 11
+        },
+        "errors": [],
+        "lineEnd": 65,
+        "lineStart": 55,
+        "name": "compareAbs",
+        "paramNames": [
+          "a",
+          "b"
+        ],
+        "maxNestedMethodDepth": 0,
+        "nestedMethods": []
+      },
+      {
+        "cyclomatic": 6,
+        "cyclomaticDensity": 33.333,
+        "halstead": {
+          "bugs": 0.14,
+          "difficulty": 24.933,
+          "effort": 10472,
+          "length": 84,
+          "time": 581.778,
+          "vocabulary": 32,
+          "volume": 420,
+          "operands": {
+            "distinct": 15,
+            "total": 44,
+            "identifiers": [
+              "result",
+              "\"\"",
+              "carry",
+              "0",
+              "i",
+              "a",
+              "length",
+              "1",
+              "j",
+              "b",
+              "sum",
+              "parseInt",
+              "10",
+              "Math",
+              "floor"
+            ]
+          },
+          "operators": {
+            "distinct": 17,
+            "total": 40,
+            "identifiers": [
+              "let",
+              "=",
+              "-",
+              ".",
+              "while",
+              "||",
+              ">=",
+              ">",
+              "if",
+              "+=",
+              "()",
+              "[]",
+              "-- (postfix)",
+              "+",
+              "%",
+              "/",
+              "return"
+            ]
+          }
+        },
+        "paramCount": 2,
+        "sloc": {
+          "logical": 18,
+          "physical": 22
+        },
+        "errors": [],
+        "lineEnd": 89,
+        "lineStart": 68,
+        "name": "addPositive",
+        "paramNames": [
+          "a",
+          "b"
+        ],
+        "maxNestedMethodDepth": 0,
+        "nestedMethods": []
+      },
+      {
+        "cyclomatic": 6,
+        "cyclomaticDensity": 27.273,
+        "halstead": {
+          "bugs": 0.158,
+          "difficulty": 31.033,
+          "effort": 14682.927,
+          "length": 93,
+          "time": 815.718,
+          "vocabulary": 34,
+          "volume": 473.134,
+          "operands": {
+            "distinct": 15,
+            "total": 49,
+            "identifiers": [
+              "result",
+              "\"\"",
+              "borrow",
+              "0",
+              "i",
+              "a",
+              "length",
+              "1",
+              "j",
+              "b",
+              "digit",
+              "parseInt",
+              "10",
+              "\"0\"",
+              "substring"
+            ]
+          },
+          "operators": {
+            "distinct": 19,
+            "total": 44,
+            "identifiers": [
+              "let",
+              "=",
+              "-",
+              ".",
+              "while",
+              ">=",
+              "()",
+              "[]",
+              "if",
+              "-=",
+              "-- (postfix)",
+              "else",
+              "<",
+              "+=",
+              "+",
+              "&&",
+              ">",
+              "===",
+              "return"
+            ]
+          }
+        },
+        "paramCount": 2,
+        "sloc": {
+          "logical": 22,
+          "physical": 31
+        },
+        "errors": [],
+        "lineEnd": 122,
+        "lineStart": 92,
+        "name": "subtractPositive",
+        "paramNames": [
+          "a",
+          "b"
+        ],
+        "maxNestedMethodDepth": 0,
+        "nestedMethods": []
+      },
+      {
+        "cyclomatic": 9,
+        "cyclomaticDensity": 39.13,
+        "halstead": {
+          "bugs": 0.167,
+          "difficulty": 19.412,
+          "effort": 9713.104,
+          "length": 103,
+          "time": 539.617,
+          "vocabulary": 29,
+          "volume": 500.372,
+          "operands": {
+            "distinct": 17,
+            "total": 55,
+            "identifiers": [
+              "neg1",
+              "num1",
+              "0",
+              "\"-\"",
+              "neg2",
+              "num2",
+              "abs1",
+              "substring",
+              "1",
+              "abs2",
+              "sum",
+              "addPositive",
+              "cmp",
+              "compareAbs",
+              "\"0\"",
+              "diff",
+              "subtractPositive"
+            ]
+          },
+          "operators": {
+            "distinct": 12,
+            "total": 48,
+            "identifiers": [
+              "let",
+              "=",
+              "===",
+              "[]",
+              ":?",
+              "()",
+              ".",
+              "if",
+              "return",
+              "+",
+              "else",
+              ">"
+            ]
+          }
+        },
+        "paramCount": 2,
+        "sloc": {
+          "logical": 23,
+          "physical": 27
+        },
+        "errors": [],
+        "lineEnd": 151,
+        "lineStart": 125,
+        "name": "addBigIntegers",
+        "paramNames": [
+          "num1",
+          "num2"
+        ],
+        "maxNestedMethodDepth": 0,
+        "nestedMethods": []
+      },
+      {
+        "cyclomatic": 3,
+        "cyclomaticDensity": 25,
+        "halstead": {
+          "bugs": 0.079,
+          "difficulty": 8.333,
+          "effort": 1962.756,
+          "length": 48,
+          "time": 109.042,
+          "vocabulary": 30,
+          "volume": 235.531,
+          "operands": {
+            "distinct": 18,
+            "total": 25,
+            "identifiers": [
+              "isValidInteger",
+              "line",
+              "console",
+              "error",
+              "Invalid integer: \"",
+              "\". Please enter a valid integer.",
+              "inputs",
+              "push",
+              "normalize",
+              "lineCount",
+              "2",
+              "result",
+              "addBigIntegers",
+              "0",
+              "1",
+              "log",
+              "rl",
+              "close"
+            ]
+          },
+          "operators": {
+            "distinct": 12,
+            "total": 23,
+            "identifiers": [
+              "if",
+              "! (prefix)",
+              "()",
+              ".",
+              "``",
+              "${}",
+              "return",
+              "++ (postfix)",
+              "===",
+              "let",
+              "=",
+              "[]"
+            ]
+          }
+        },
+        "paramCount": 1,
+        "sloc": {
+          "logical": 12,
+          "physical": 15
+        },
+        "errors": [],
+        "lineEnd": 171,
+        "lineStart": 157,
+        "name": "<anon method-1>",
+        "paramNames": [
+          "line"
+        ],
+        "maxNestedMethodDepth": 0,
+        "nestedMethods": []
+      }
+    ],
+    "averageComplexity": "6.14"
+  },
+  "halstead": {
+    "uniqueOperators": 34,
+    "uniqueOperands": 65,
+    "totalOperators": 272,
+    "totalOperands": 305,
+    "vocabulary": 99,
+    "length": 577,
+    "calculatedLength": "0.00",
+    "volume": "3825.14",
+    "difficulty": "79.77",
+    "effort": "305128.38",
+    "timeRequired": "16951.58 seconds",
+    "bugsDelivered": "1.2750"
+  },
+  "maintainability": {
+    "index": "69.74",
+    "rating": "Moderate",
+    "factors": {
+      "halsteadVolume": 3825.139,
+      "cyclomaticComplexity": 44,
+      "linesOfCode": 171,
+      "commentDensity": 25.146198830409354
+    },
+    "components": {
+      "withoutComment": "34.69",
+      "commentWeight": "35.05"
+    }
+  },
+  "duplication": {
+    "duplicatedLines": 0,
+    "duplicatedFiles": 0,
+    "percentage": "0.00%",
+    "clones": 0,
+    "note": "Basic analysis - detailed duplication detection failed"
+  },
+  "codeQuality": {
+    "averageLineLength": "19.61",
+    "maxNestingLevel": 3,
+    "todoComments": 0,
+    "imports": 1,
+    "exports": 0,
+    "couplingIndicator": 1,
+    "cohesionIndicator": 3
+  }
+}

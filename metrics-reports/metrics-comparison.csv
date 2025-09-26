@@ -1,0 +1,7 @@
+Package,Physical_LOC,Source_LOC,Comment_LOC,Comment_Density,Cyclomatic_Complexity,Average_Function_Complexity,Function_Count,Halstead_Volume,Halstead_Difficulty,Halstead_Effort,Maintainability_Index,Maintainability_Rating,Max_Nesting_Level,Coupling_Indicator,Duplication_Percentage
+chatgpt,145,126,19,13.10%,37,4.50,8,3846.05,63.27,243355.01,65.53,Moderate,4,1,0.00%
+gemini,203,116,87,42.86%,30,4.83,6,3417.92,56.29,192393.13,78.17,Moderate,3,1,0.00%
+grok,204,154,50,24.51%,48,5.22,9,4237.14,82.95,351487.40,65.08,Moderate,4,2,0.00%
+cursor,197,144,53,26.90%,39,4.75,8,3986.76,67.31,268341.83,69.32,Moderate,3,2,0.00%
+claude,171,128,43,25.15%,44,6.14,7,3825.14,79.77,305128.38,69.74,Moderate,3,1,0.00%
+deepseek,241,141,100,41.49%,49,4.36,11,4504.18,72.64,327162.44,69.15,Moderate,5,1,0.00%
