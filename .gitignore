@@ -152,6 +152,10 @@ outputs/
 results/
 benchmarks/
 
+# Code metrics reports
+metrics-reports/
+report/
+
 # Local configuration files that shouldn't be shared
 config/local.json
 .local.*

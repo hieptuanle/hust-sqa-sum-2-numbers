@@ -1,6 +1,7 @@
 {
   "name": "hust-sqa-sum-2-numbers",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "description": "",
   "main": "index.js",
@@ -22,10 +23,33 @@
     "test:grok": "node test-runner.js grok",
     "test:cursor": "node test-runner.js cursor",
     "test:claude": "node test-runner.js claude",
-    "test:deepseek": "node test-runner.js deepseek"
+    "test:deepseek": "node test-runner.js deepseek",
+    "metrics": "node metrics-analyzer.js",
+    "metrics:chatgpt": "node metrics-analyzer.js chatgpt",
+    "metrics:gemini": "node metrics-analyzer.js gemini",
+    "metrics:grok": "node metrics-analyzer.js grok",
+    "metrics:cursor": "node metrics-analyzer.js cursor",
+    "metrics:claude": "node metrics-analyzer.js claude",
+    "metrics:deepseek": "node metrics-analyzer.js deepseek",
+    "analyze:all": "node metrics-analyzer.js",
+    "plato:all": "npx plato -r -d metrics-reports/plato packages/*/index.js",
+    "complexity:all": "npx cr packages/*/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.14.0"
+  "packageManager": "pnpm@10.14.0",
+  "devDependencies": {
+    "code-health-meter": "^4.1.2",
+    "complexity-report": "2.0.0-alpha",
+    "cr": "^0.1.0",
+    "escomplex": "2.0.0-alpha",
+    "eslint": "^9.36.0",
+    "eslint-plugin-complexity": "^1.0.2",
+    "jscpd": "^4.0.5",
+    "jshint": "^2.13.6",
+    "plato": "^1.7.0",
+    "sloc": "^0.3.2",
+    "typhonjs-escomplex": "^0.1.0"
+  }
 }
